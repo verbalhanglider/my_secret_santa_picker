@@ -26,13 +26,28 @@ class TestSecretSanta(TestCase):
             for k,v in assignments.items():
                 self.assertNotEqual(k,v)
 
-    def test_regression_test_all_participants_are_givers(self):
+    def test_regression_test_same_number_givers_as_receivers(self):
         from secretsanta import assign
-        for x in range(0,100):
-            number_participants = randint(1,20)
+        for x in range(2,100):
+            number_participants = randint(2,20)
             participants = sample(self.participant_options,
                                   number_participants)
+            total = len(participants)
             assignments = assign(participants)
             givers = [x for x in assignments.keys()]
             receivers = [assignments[x] for x in assignments.keys()]
             self.assertEqual(set(givers), set(receivers))
+
+    def test_regression_test_same_numher_gives_receivers_and_participants(self):
+        from secretsanta import assign
+        for x in range(0,100):
+            number_participants = randint(2,20)
+            participants = sample(self.participant_options,
+                                  number_participants)
+            total = len(participants)
+            assignments = assign(participants)
+            givers = [x for x in assignments.keys()]
+            receivers = [assignments[x] for x in assignments.keys()]
+            checks = [len(lst) == total for lst in 
+                    [givers, receivers, participants]]
+            self.assertTrue(all(checks)) 
