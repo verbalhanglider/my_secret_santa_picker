@@ -7,5 +7,5 @@ python:
 install:
     pip install -r dev_requirements.txt
 script:
-    - python setup.py test
+    - python setup.py install
     - pytest
